@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grafana-deployment
+  labels:
+    app: grafana
+spec:
+  strategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: grafana    
+  template:
+    metadata:
+      name: grafana-pod
+      labels:
+        app: grafana
+    spec:
+      containers:
+      - name: grafana-con
+        image: grafana/grafana:main
+        ports:
+        - name: grafana-con
+          containerPort: 3000
+        volumeMounts:
+        - name: grafana-vol
+          mountPath: /run/desktop/mnt/c/users/ikinu        
+   
+      volumes:
+      - name: grafana-vol
+        persistentVolumeClaim:
+          claimName: grafana-pvc

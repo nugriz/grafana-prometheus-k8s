@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: ConfigMap
+metadata: 
+  name: prometheus-configuration
+data:
+  prometheus.yml: |-
+    global:
+      scrape_interval:     5s 
+      evaluation_interval: 5s 
+    scrape_configs:
+     - job_name: 'prometheus'
+       static_configs:
+       - targets: ['localhost:9090']
+     - job_name: 'hardware-service'
+       metrics_path: '/actuator/prometheus'
+       static_configs:
+       - targets: ['hardware-service:8081']
+     - job_name: 'software-service'
+       metrics_path: '/actuator/prometheus'
+       static_configs:
+       - targets: ['software-service:8082']
+     - job_name: 'api-service'
+       metrics_path: '/actuator/prometheus'
+       static_configs:
+       - targets: ['api-service:8092']
+     - job_name: 'discovery-service'
+       metrics_path: '/actuator/prometheus'
+       static_configs:
+       - targets: ['discovery-service:8761']
+     - job_name: 'producer'
+       metrics_path: '/actuator/prometheus'
+       static_configs:
+       - targets: ['producer:8080']
+     - job_name: 'consumer'
+       metrics_path: '/actuator/prometheus'
+       static_configs:
+       - targets: ['consumer:8083']
